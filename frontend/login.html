@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+
+<style>
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#2c7be5;
+font-family:Arial;
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#1e4c88;
+color:white;
+border:none;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+<h2>Hospital Login</h2>
+
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+
+function login(){
+
+let username = document.getElementById("user").value
+let password = document.getElementById("pass").value
+
+console.log("Trying login...")
+
+fetch("http://127.0.0.1:5000/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({
+username: username,
+password: password
+})
+})
+.then(res => res.json())
+.then(data => {
+
+console.log("Server response:", data)
+
+if(data.status === "success"){
+alert("Login Success")
+localStorage.setItem("role", data.role)
+window.location.href = "index.html"
+}else{
+alert("Invalid username or password")
+}
+
+})
+.catch(error => {
+console.log("Error:", error)
+alert("Backend not connected")
+})
+
+}
+
+</script>
+
+</body>
+</html>

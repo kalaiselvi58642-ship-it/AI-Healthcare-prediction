@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Hospital Settings</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#eef3f8;
+}
+
+/* Header */
+.header{
+background:#2c7be5;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+}
+
+/* Container */
+.container{
+width:80%;
+margin:20px auto;
+}
+
+/* Section Card */
+.section{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.section h3{
+margin-bottom:15px;
+color:#2c7be5;
+}
+
+/* Inputs */
+input, select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* Toggle */
+.toggle{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
+}
+
+/* Button */
+button{
+width:100%;
+padding:12px;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a5fd1;
+}
+
+</style>
+
+</head>
+
+<body>
+    <script>
+if(!localStorage.getItem("role")){
+window.location.href="login.html"
+}
+</script>
+
+<div class="header">
+⚙ Hospital System Settings
+</div>
+
+<div class="container">
+
+<!-- 👨‍⚕ Doctor Profile -->
+<div class="section">
+<h3>Doctor Profile</h3>
+
+<label>Doctor Name</label>
+<input id="doctor" placeholder="Enter doctor name">
+
+<label>Email</label>
+<input id="email" placeholder="Enter email">
+
+<label>Phone</label>
+<input id="phone" placeholder="Enter phone number">
+
+</div>
+
+<!-- 🏥 Hospital Info -->
+<div class="section">
+<h3>Hospital Information</h3>
+
+<label>Hospital Name</label>
+<input id="hospital" placeholder="Hospital name">
+
+<label>Location</label>
+<input id="location" placeholder="City / Address">
+
+<label>Department</label>
+<select id="dept">
+<option>General</option>
+<option>Cardiology</option>
+<option>Neurology</option>
+<option>Orthopedic</option>
+</select>
+
+</div>
+
+<!-- 🔔 Notifications -->
+<div class="section">
+<h3>Notifications</h3>
+
+<div class="toggle">
+<label>Email Alerts</label>
+<input type="checkbox" id="emailAlert">
+</div>
+
+<div class="toggle">
+<label>SMS Alerts</label>
+<input type="checkbox" id="smsAlert">
+</div>
+
+<div class="toggle">
+<label>Emergency Alerts</label>
+<input type="checkbox" id="emergencyAlert">
+</div>
+
+</div>
+
+<!-- 💾 Save Button -->
+<button onclick="saveSettings()">Save Settings</button>
+
+</div>
+
+<script>
+function saveSettings(){
+
+let data = {
+doctor: document.getElementById("doctor").value,
+email: document.getElementById("email").value,
+phone: document.getElementById("phone").value,
+hospital: document.getElementById("hospital").value,
+location: document.getElementById("location").value,
+department: document.getElementById("dept").value
+}
+
+fetch("http://127.0.0.1:5000/save_settings",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify(data)
+})
+.then(()=> alert("Saved to Database ✅"))
+
+}
+</script>
+
+</body>
+</html>
